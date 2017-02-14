@@ -7,8 +7,11 @@ import Chart    from './components/chart.jsx';
 const VerticalBarChart = require("./components/VerticalBarChart.js");
 const HorizontalBarChart = require("./components/HorizontalBarChart.js");
 const BubbleChart = require("./components/BubbleChart.js");
+const LineChart = require("./components/LineChart.js");
 
-var chartType = 'Horizontal' // 'Bubble' or 'Horizontal' or 'Vertical'
+
+
+var chartType = 'Line' // 'Bubble' or 'Horizontal' or 'Vertical' or 'Line'
 
 const mountingPoint = document.createElement('div');
 mountingPoint.className = 'react-app';
@@ -218,12 +221,12 @@ if (chartType == 'Bubble') {
     //    xCustomMinValue: 0,
     
         // Area axis
-        aLabelText: 'Petal Width',
+        aCaptionText: 'Petal Width',
         aCustomMinArea: 75,
         aCustomMaxArea: 1200,
 
         // Color axis
-        cLabelText: 'Iris Species',
+        cCaptionText: 'Iris Species',
     
         // Bubbles
         bubbleDefaultColor: '#0194D3',
@@ -236,5 +239,105 @@ if (chartType == 'Bubble') {
     ReactDOM.render(
         <BubbleChart 
             {...optionsBubble}
+        />, mountingPoint);
+}
+
+// Line Chart ----------------------------------------------------------------
+
+if (chartType == 'Line') {
+    var data = require('dsv!../data/time_series.csv');
+    var optionsLine = {
+        // specify inputs
+        data: data,
+        xColumn: 'time',
+        yColumn: ['pointpred','response'],
+        lColumn: ['pointpredlower','none'],
+        uColumn: ['pointpredupper','none'],
+        timeFormat: '%Y-%m-%d',
+    
+        // window size
+        chartWidth: 1200,
+        chartHeight: 500,
+        marginLeft: 30,
+        marginRight: 30,
+        marginTop: 30,
+        marginBottom: 50,
+
+        // Y axis    
+        yLabelText: 'Value',
+        yLabelFontFamily: 'Lato',
+        yLabelFontSize: '13px',
+        yLabelFontColor: 'black',
+        yLabelFontWeight: 'bold',
+    
+        yTickLabelPosition: 'left',
+        yTickLabelFontFamily: 'Lato',
+        yTickLabelFontSize: '11px',
+        yTickLabelFontColor: 'black',
+        yTickLabelFontWeight: 'normal',
+        yTickCount: 5,
+    //   yCustomMaxValue: 130,
+    //   yCustomMinValue: 80,
+    
+        // X axis    
+        xLabelText: 'Time',
+        xLabelFontFamily: 'Lato',
+        xLabelFontSize: '13px',
+        xLabelFontColor: 'black',
+        xLabelFontWeight: 'bold',
+    
+        xTickLabelPosition: 'bottom',
+        xTickLabelFontFamily: 'Lato',
+        xTickLabelFontSize: '11px',
+        xTickLabelFontColor: 'black',
+        xTickLabelFontWeight: 'normal',
+        xTickCount: 5,
+        xCustomEndDate: '2014-04-02',
+        xCustomStartDate: '2014-03-02',
+
+        xPreTimeInterval: 'day',
+        xPreIntervalCount: 3,
+        xPostTimeInterval: 'day',
+        xPostIntervalCount: 3,
+
+        // Bubbles
+        bubbleRadius: 4,
+        bubbleFillColor: 'white',
+        bubbleEdgeColor: ["#006082",'red'],
+        bubbleEdgeThickness: 3,
+
+        // Trend line
+        lineStrokeColor: ["#006082",'red'],
+        lineStrokeWidth: 3,
+
+        // Marker lines
+        xMarkerPosition: ['2014-03-10','2014-03-30'],
+        markerLineColor: 'D1D3D4',
+        markerLineWidth: 2,
+        markerLabelText: ['Start Intervention','End Intervention'],
+        markerLabelFontFamily: 'Lato',
+        markerLabelFontSize: '11px',
+        markerLabelFontColor: '#D1D3D4',
+        markerLabelFontWeight: 'normal',        
+
+        intervalColor: ["4DC0E8",'none'],
+
+        legendWidth: 300,
+        legendBubbleArea: 150,
+        legendLabelText: ['Counterfactual','Measured Trend'],
+        legendLabelFontFamily: 'Lato',
+        legendLabelFontSize: '13px',
+        legendLabelFontColor: 'black',
+        legendLabelFontWeight: 'normal', 
+        legendCaptionText: 'Trends', 
+        legendCaptionFontFamily: 'Lato',
+        legendCaptionFontSize: '13px',
+        legendCaptionFontColor: 'black',
+        legendCaptionFontWeight: 'normal',  
+    }
+
+    ReactDOM.render(
+        <LineChart 
+            {...optionsLine}
         />, mountingPoint);
 }
